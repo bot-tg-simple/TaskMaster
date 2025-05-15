@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster - Управление задачами</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="landing-page">
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo">TaskMaster</a>
+            <div class="nav-links">
+                <a href="{{ url_for('login') }}" class="btn btn-outline">Войти</a>
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Управляйте задачами эффективно</h1>
+                <p class="hero-text">Организуйте свои задачи, устанавливайте приоритеты и достигайте целей с помощью нашего современного сервиса управления задачами.</p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">Начать бесплатно</a>
+                    <a href="#features" class="btn btn-outline btn-large">Узнать больше</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='img/tasks-image.svg') }}" alt="Task Management">
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Возможности</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-tasks"></i>
+                    <h3>Управление задачами</h3>
+                    <p>Создавайте, редактируйте и отслеживайте свои задачи в удобном интерфейсе.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Подзадачи</h3>
+                    <p>Разбивайте сложные задачи на подзадачи для лучшей организации.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Дедлайны</h3>
+                    <p>Устанавливайте сроки выполнения задач и получайте напоминания.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tags"></i>
+                    <h3>Категории</h3>
+                    <p>Организуйте задачи по категориям для лучшей структуризации.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TaskMaster</h4>
+                    <p>Современный сервис управления задачами для повышения продуктивности.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Ссылки</h4>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Главная</a></li>
+                        <li><a href="#features">Возможности</a></li>
+                        <li><a href="{{ url_for('login') }}">Войти</a></li>
+                        <li><a href="{{ url_for('register') }}">Регистрация</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TaskMaster. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

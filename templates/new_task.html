@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новая задача - TaskMaster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('dashboard') }}" class="logo">TaskMaster</a>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+                <div class="user-menu">
+                    <span class="username">{{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="container">
+            <div class="form-container">
+                <h1>Новая задача</h1>
+                
+                <form method="POST" class="task-form">
+                    <div class="form-group">
+                        <label for="title">Название задачи</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Описание</label>
+                        <textarea id="description" name="description" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deadline">Срок выполнения</label>
+                            <input type="date" id="deadline" name="deadline">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Приоритет</label>
+                            <select id="priority" name="priority">
+                                <option value="low">Низкий</option>
+                                <option value="medium" selected>Средний</option>
+                                <option value="high">Высокий</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Категория</label>
+                        <input type="text" id="category" name="category" placeholder="Например: Работа, Личное, Учеба">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Создать задачу
+                        </button>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline">
+                            <i class="fas fa-times"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html> 

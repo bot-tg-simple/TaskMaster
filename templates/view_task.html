@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ task.title }} - TaskMaster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="task-view-page">
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('dashboard') }}" class="logo">TaskMaster</a>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Назад к списку
+                </a>
+                <div class="user-menu">
+                    <span class="username">{{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="task-view-content">
+        <div class="container">
+            <div class="task-view-header">
+                <div class="task-title-section">
+                    <h1>{{ task.title }}</h1>
+                    <div class="task-badges">
+                        <span class="task-status status-{{ task.status }}">
+                            {{ task.status }}
+                        </span>
+                        <span class="task-priority priority-{{ task.priority }}">
+                            {{ task.priority }}
+                        </span>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Редактировать
+                    </a>
+                    <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить эту задачу?')">
+                        <i class="fas fa-trash"></i> Удалить
+                    </a>
+                </div>
+            </div>
+
+            <div class="task-details">
+                <div class="task-info">
+                    {% if task.description %}
+                    <div class="info-section">
+                        <h3>Описание</h3>
+                        <p>{{ task.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="info-section">
+                        <h3>Детали</h3>
+                        <ul class="details-list">
+                            {% if task.category %}
+                            <li>
+                                <i class="fas fa-tag"></i>
+                                <span>Категория: {{ task.category }}</span>
+                            </li>
+                            {% endif %}
+                            
+                            {% if task.deadline %}
+                            <li>
+                                <i class="fas fa-calendar"></i>
+                                <span>Срок: {{ task.deadline.strftime('%d.%m.%Y') }}</span>
+                            </li>
+                            {% endif %}
+                            
+                            <li>
+                                <i class="fas fa-clock"></i>
+                                <span>Создано: {{ task.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {% if task.subtasks %}
+                    <div class="info-section">
+                        <h3>Подзадачи</h3>
+                        <ul class="subtasks-list">
+                            {% for subtask in task.subtasks %}
+                            <li>
+                                <form action="{{ url_for('toggle_subtask', subtask_id=subtask.id) }}" method="GET" style="display: inline;">
+                                    <input type="checkbox" 
+                                           id="subtask_{{ subtask.id }}" 
+                                           {% if subtask.completed %}checked{% endif %}
+                                           onchange="this.form.submit()">
+                                    <label for="subtask_{{ subtask.id }}" class="{% if subtask.completed %}completed{% endif %}">
+                                        {{ subtask.title }}
+                                    </label>
+                                </form>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html> 

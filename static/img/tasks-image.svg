@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="400" cy="300" r="250" fill="#4F46E5" opacity="0.1"/>
+    <circle cx="400" cy="300" r="200" fill="#4F46E5" opacity="0.05"/>
+    <rect x="200" y="150" width="400" height="300" rx="20" fill="white" stroke="#4F46E5" stroke-width="2"/>
+    <rect x="230" y="180" width="340" height="40" rx="8" fill="#F3F4F6"/>
+    <rect x="230" y="240" width="340" height="40" rx="8" fill="#F3F4F6"/>
+    <rect x="230" y="300" width="340" height="40" rx="8" fill="#F3F4F6"/>
+    <rect x="230" y="360" width="340" height="40" rx="8" fill="#F3F4F6"/>
+    <circle cx="250" cy="200" r="8" fill="#4F46E5"/>
+    <circle cx="250" cy="260" r="8" fill="#4F46E5"/>
+    <circle cx="250" cy="320" r="8" fill="#4F46E5"/>
+    <circle cx="250" cy="380" r="8" fill="#4F46E5"/>
+    <text x="270" y="205" font-family="Arial" font-size="14" fill="#1F2937">Создать новый проект</text>
+    <text x="270" y="265" font-family="Arial" font-size="14" fill="#1F2937">Подготовить презентацию</text>
+    <text x="270" y="325" font-family="Arial" font-size="14" fill="#1F2937">Встреча с командой</text>
+    <text x="270" y="385" font-family="Arial" font-size="14" fill="#1F2937">Обновить документацию</text>
+    <circle cx="150" cy="150" r="20" fill="#10B981"/>
+    <circle cx="650" cy="450" r="30" fill="#F59E0B"/>
+    <circle cx="600" cy="200" r="15" fill="#EF4444"/>
+    <path d="M230 180 L270 180" stroke="#4F46E5" stroke-width="2"/>
+    <path d="M230 240 L270 240" stroke="#4F46E5" stroke-width="2"/>
+    <path d="M230 300 L270 300" stroke="#4F46E5" stroke-width="2"/>
+    <path d="M230 360 L270 360" stroke="#4F46E5" stroke-width="2"/>
+</svg> 

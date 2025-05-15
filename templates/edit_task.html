@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование задачи - TaskMaster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('dashboard') }}" class="logo">TaskMaster</a>
+            <div class="nav-links">
+                <a href="{{ url_for('view_task', task_id=task.id) }}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Назад к задаче
+                </a>
+                <div class="user-menu">
+                    <span class="username">{{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="container">
+            <div class="form-container">
+                <h1>Редактирование задачи</h1>
+                
+                <form method="POST" class="task-form">
+                    <div class="form-group">
+                        <label for="title">Название задачи</label>
+                        <input type="text" id="title" name="title" value="{{ task.title }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Описание</label>
+                        <textarea id="description" name="description" rows="4">{{ task.description or '' }}</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deadline">Срок выполнения</label>
+                            <input type="date" id="deadline" name="deadline" 
+                                value="{{ task.deadline.strftime('%Y-%m-%d') if task.deadline else '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Приоритет</label>
+                            <select id="priority" name="priority">
+                                <option value="low" {{ 'selected' if task.priority == 'low' else '' }}>Низкий</option>
+                                <option value="medium" {{ 'selected' if task.priority == 'medium' else '' }}>Средний</option>
+                                <option value="high" {{ 'selected' if task.priority == 'high' else '' }}>Высокий</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">Категория</label>
+                            <input type="text" id="category" name="category" 
+                                value="{{ task.category or '' }}" 
+                                placeholder="Например: Работа, Личное, Учеба">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Статус</label>
+                            <select id="status" name="status">
+                                <option value="pending" {{ 'selected' if task.status == 'pending' else '' }}>В ожидании</option>
+                                <option value="in_progress" {{ 'selected' if task.status == 'in_progress' else '' }}>В процессе</option>
+                                <option value="completed" {{ 'selected' if task.status == 'completed' else '' }}>Завершено</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="subtasks-section">
+                        <h3>Подзадачи</h3>
+                        <div class="subtasks-list">
+                            {% for subtask in task.subtasks %}
+                            <div class="subtask-item">
+                                <input type="checkbox" 
+                                    id="subtask_{{ subtask.id }}" 
+                                    name="completed_subtasks" 
+                                    value="{{ subtask.id }}"
+                                    {{ 'checked' if subtask.completed }}>
+                                <label for="subtask_{{ subtask.id }}">{{ subtask.title }}</label>
+                                <form method="POST" action="{{ url_for('delete_subtask', subtask_id=subtask.id) }}" 
+                                    style="display: inline;" 
+                                    onsubmit="return confirm('Удалить подзадачу?')">
+                                    <button type="submit" class="delete-subtask">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="add-subtask">
+                            <input type="text" name="new_subtask" placeholder="Добавить подзадачу">
+                            <button type="button" class="btn btn-outline btn-small" onclick="addSubtask()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Сохранить изменения
+                        </button>
+                        <a href="{{ url_for('view_task', task_id=task.id) }}" class="btn btn-outline">
+                            <i class="fas fa-times"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function addSubtask() {
+            const input = document.querySelector('input[name="new_subtask"]');
+            if (input.value.trim()) {
+                const form = new FormData();
+                form.append('title', input.value);
+                
+                fetch(`{{ url_for('add_subtask', task_id=task.id) }}`, {
+                    method: 'POST',
+                    body: form
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

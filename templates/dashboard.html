@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления - TaskMaster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('dashboard') }}" class="logo">TaskMaster</a>
+            <div class="nav-links">
+                <a href="{{ url_for('new_task') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Новая задача
+                </a>
+                <div class="user-menu">
+                    <span class="username">{{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Мои задачи</h1>
+                <div class="task-filters">
+                    <select class="filter-select" onchange="filterTasks(this.value)">
+                        <option value="all">Все задачи</option>
+                        <option value="todo">В ожидании</option>
+                        <option value="in_progress">В процессе</option>
+                        <option value="done">Завершено</option>
+                    </select>
+                    <select class="filter-select" onchange="filterPriority(this.value)">
+                        <option value="all">Все приоритеты</option>
+                        <option value="high">Высокий</option>
+                        <option value="medium">Средний</option>
+                        <option value="low">Низкий</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tasks-grid">
+                {% for task in tasks %}
+                <div class="task-card priority-{{ task.priority }}">
+                    <div class="task-header">
+                        <h3>{{ task.title }}</h3>
+                        <div class="task-actions">
+                            <a href="{{ url_for('view_task', task_id=task.id) }}" class="action-btn">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}" class="action-btn">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{{ url_for('delete_task', task_id=task.id) }}" class="action-btn delete-btn" onclick="return confirm('Вы уверены?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="task-body">
+                        <p class="task-description">{{ task.description[:100] }}{% if task.description|length > 100 %}...{% endif %}</p>
+                        
+                        {% if task.category %}
+                        <span class="task-category">
+                            <i class="fas fa-tag"></i> {{ task.category }}
+                        </span>
+                        {% endif %}
+                        
+                        {% if task.deadline %}
+                        <span class="task-deadline {% if task.deadline < now %}overdue{% endif %}">
+                            <i class="fas fa-calendar"></i> {{ task.deadline.strftime('%d.%m.%Y') }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="task-footer">
+                        <span class="task-status status-{{ task.status }}">
+                            {{ task.status }}
+                        </span>
+                        <span class="task-priority priority-{{ task.priority }}">
+                            {{ task.priority }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterTasks(status) {
+            const tasks = document.querySelectorAll('.task-card');
+            tasks.forEach(task => {
+                const taskStatus = task.querySelector('.task-status').textContent.trim().toLowerCase();
+                if (status === 'all' || taskStatus === status) {
+                    task.style.display = 'block';
+                } else {
+                    task.style.display = 'none';
+                }
+            });
+        }
+
+        function filterPriority(priority) {
+            const tasks = document.querySelectorAll('.task-card');
+            tasks.forEach(task => {
+                const taskPriority = task.querySelector('.task-priority').textContent.trim().toLowerCase();
+                if (priority === 'all' || taskPriority === priority) {
+                    task.style.display = 'block';
+                } else {
+                    task.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html> 
