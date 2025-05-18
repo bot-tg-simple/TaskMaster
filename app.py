@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, abo
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from datetime import datetime
 from models import db, User, Task, Subtask
+from alice import alice
 import os
 
 
@@ -15,6 +16,9 @@ db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+#Регистрируем blueprint для Алисы
+app.register_blueprint(alice)
 
 
 @login_manager.user_loader
